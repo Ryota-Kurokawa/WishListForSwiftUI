@@ -25,10 +25,10 @@ struct ReadArticleScreen: View {
     func fetchData() {
         guard let url = url else { return }
         let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        URLSession.shared.dataTask(with: request) { data, _, _ in
             if let data = data {
                 if let decodedData = try? JSONDecoder().decode(User.self, from: data) {
-                    DispatchQueue.main.async {
+                    Task.detached { @MainActor in
                         self.userName = decodedData.name ?? "Unknown"
                     }
                     return
