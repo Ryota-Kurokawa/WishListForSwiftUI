@@ -1,0 +1,88 @@
+# プロジェクト名
+name: algoria
+# バンドルID
+options:
+  # バンドルプレフィックス
+  bundleIdPrefix: algoria
+  # LocalizationsのDevelopment Languageを指定
+  developmentLanguage: ja
+  
+# firebaseの設定
+packages:
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: 10.21.0
+  
+# ターゲットごとの設定
+targets:
+  algoria:
+    # ターゲットの製品タイプ
+    type: application
+    # ターゲットのプラットフォーム
+    platform: iOS
+    # デプロイメントターゲット
+    deploymentTarget: "17.0"
+    #採用するfirebaseのサービス
+    dependencies:
+      - package: Firebase
+        product: FirebaseAuth
+      - package: Firebase
+        product: FirebaseFirestore
+      - package: Firebase
+        product: FirebaseStorage
+      - package: Firebase
+        product: FirebaseFirestoreSwift
+      
+    sources:
+      - algoria
+      - project.yml
+      - .gitignore
+      - .swiftlint.yml
+      - .swift-version
+      
+    settings:
+      base:
+        MARKETING_VERSION: $(CURRENT_PROJECT_VERSION)
+        CURRENT_PROJECT_VERSION: 1
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
+        DEVELOPMENT_TEAM: Chanchrons
+        OTHER_LDFLAGS:
+          - $(inherited)
+          - -ObjC
+          - -all_load
+
+    info:
+      path: algoria/Info.plist
+      properties:
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        LSRequiresIPhoneOS: YES
+        UILaunchScreen: ""
+        UIApplicationSupportsIndirectInputEvents: YES
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: YES
+        UISupportedInterfaceOrientations~iphone:
+          [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UISupportedInterfaceOrientations~ipad:
+          [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+
+  algoriaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - algoriaTests
+    settings:
+      base:
+        INFOPLIST_FILE: algoriaTests/Info.plist
+    dependencies:
+      - target: algoria
+        
+  algoriaUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: algoriaUITests
+    settings:
+      base:
+        INFOPLIST_FILE: algoriaUITests/Info.plist
+    dependencies:
+      - target: algoria
