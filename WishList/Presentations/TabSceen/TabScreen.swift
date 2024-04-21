@@ -20,6 +20,11 @@ struct TabScreen: View {
                     Image(systemName: "person")
                     Text("Profile")
                 }
+            SearchRepositoryScreen()
+                .tabItem {
+                    Image(systemName: "magnifyingglass")
+                    Text("Search Repositories")
+                }
         }
     }
 }

@@ -8,38 +8,46 @@
 import SwiftUI
 
 struct ReadArticleScreen: View {
-    let url = URL(string: "https://api.github.com/users/Ryota-Kurokawa")
-    @State var userName: String = ""
-
+    
+    @ObservedObject var controller = ReadArticleController()
+    
+    
     var body: some View {
-        VStack {
-            Text("API Test")
-                .font(.title)
-                .padding()
-            Button("Github Fetch") {
-                fetchData()
-            }
-            Text(userName)
-        }
-    }
-    func fetchData() {
-        guard let url = url else { return }
-        let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { data, _, _ in
-            if let data = data {
-                if let decodedData = try? JSONDecoder().decode(User.self, from: data) {
-                    Task.detached { @MainActor in
-                        self.userName = decodedData.name ?? "Unknown"
-                    }
-                    return
+        NavigationStack {
+            if controller.users.count == 0 {
+                VStack{
+                    ProgressView().padding()
+                    Text("Fetching Users...")
+                }
+                .onAppear(){
+                    controller.getUsers()
                 }
             }
-        }.resume()
+            else{
+                List(controller.users, id: \.login) { user in
+                    Link(destination: URL(string: user.html_url)!) {
+                        HStack{
+                            AsyncImage(url: URL(string: user.avatar_url)) { response in
+                                switch response {
+                                case .success(let image):
+                                    image.resizable().frame(width: 50, height: 50)
+                                default:
+                                    Image(systemName: "nosign")
+                                }
+                            }
+                            VStack(alignment: .leading) {
+                                Text(user.login)
+                                Text(user.url)
+                                    .font(.system(size: 11))
+                                    .foregroundColor(Color.gray)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-}
-
-struct User: Codable {
-    let name: String?
+    
 }
 
 #Preview {

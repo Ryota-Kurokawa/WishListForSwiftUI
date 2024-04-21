@@ -11,13 +11,14 @@ struct Article: Codable {
     var id: String
     var title: String
     var url: String
-    var user: User
-
+    var user: UserInfo
+    
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.title = try container.decode(String.self, forKey: .title)
         self.url = try container.decode(String.self, forKey: .url)
-        self.user = try container.decode(User.self, forKey: .user)
+        self.user = try container.decode(UserInfo.self, forKey: .user)
     }
+
 }

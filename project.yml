@@ -1,21 +1,15 @@
 # プロジェクト名
-name: algoria
+name: WishList
 # バンドルID
 options:
   # バンドルプレフィックス
-  bundleIdPrefix: algoria
+  bundleIdPrefix: WishList
   # LocalizationsのDevelopment Languageを指定
   developmentLanguage: ja
-  
-# firebaseの設定
-packages:
-  Firebase:
-    url: https://github.com/firebase/firebase-ios-sdk
-    from: 10.21.0
-  
+    
 # ターゲットごとの設定
 targets:
-  algoria:
+  WishList:
     # ターゲットの製品タイプ
     type: application
     # ターゲットのプラットフォーム
@@ -23,18 +17,9 @@ targets:
     # デプロイメントターゲット
     deploymentTarget: "17.0"
     #採用するfirebaseのサービス
-    dependencies:
-      - package: Firebase
-        product: FirebaseAuth
-      - package: Firebase
-        product: FirebaseFirestore
-      - package: Firebase
-        product: FirebaseStorage
-      - package: Firebase
-        product: FirebaseFirestoreSwift
       
     sources:
-      - algoria
+      - WishList
       - project.yml
       - .gitignore
       - .swiftlint.yml
@@ -52,7 +37,7 @@ targets:
           - -all_load
 
     info:
-      path: algoria/Info.plist
+      path: WishList/Info.plist
       properties:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -65,24 +50,3 @@ targets:
           [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
         UISupportedInterfaceOrientations~ipad:
           [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
-
-  algoriaTests:
-    type: bundle.unit-test
-    platform: iOS
-    sources:
-      - algoriaTests
-    settings:
-      base:
-        INFOPLIST_FILE: algoriaTests/Info.plist
-    dependencies:
-      - target: algoria
-        
-  algoriaUITests:
-    type: bundle.ui-testing
-    platform: iOS
-    sources: algoriaUITests
-    settings:
-      base:
-        INFOPLIST_FILE: algoriaUITests/Info.plist
-    dependencies:
-      - target: algoria
