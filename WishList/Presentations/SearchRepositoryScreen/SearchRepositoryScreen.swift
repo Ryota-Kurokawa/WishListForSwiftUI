@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchRepositoryScreen: View {
     @State private var keyword: String = ""
     @State var repositories: [Repository] = []
-    let apiClient: ApiClientRepositoryProtocol = ApiClientRepository()
+    let controller = SearchRepositoryController()
     
     var body: some View {
         VStack {
@@ -24,8 +24,8 @@ struct SearchRepositoryScreen: View {
             Button {
                 Task {
                     do {
-                        repositories = try await apiClient.fetchRepositories(keyword: keyword)
-                        print(repositories.description)
+                        let repositories = try await controller.githubRepositoryService.fetchRepositories(keyword: keyword)
+                        print(repositories)
                     } catch {
                         print(error)
                     }

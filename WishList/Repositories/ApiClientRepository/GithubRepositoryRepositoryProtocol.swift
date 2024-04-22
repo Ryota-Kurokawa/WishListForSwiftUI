@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol ApiClientRepositoryProtocol {
+protocol GithubRepositoryRepositoryProtocol {
     func fetchRepositories(keyword: String) async throws -> [Repository]
 }

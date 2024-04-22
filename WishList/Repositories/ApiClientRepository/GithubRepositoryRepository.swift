@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ApiClientRepository: ApiClientRepositoryProtocol, ObservableObject {
+class GithubRepositoryRepository: GithubRepositoryRepositoryProtocol, ObservableObject {
     @Published var repositories: [Repository] = []
     
     
@@ -17,7 +17,7 @@ class ApiClientRepository: ApiClientRepositoryProtocol, ObservableObject {
             request.httpMethod = "GET"
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if let userData = data {
-                    if let usersFromAPI = try? JSONDecoder().decode(githubRepositories.self, from: userData) {
+                    if let usersFromAPI = try? JSONDecoder().decode(Repositories.self, from: userData) {
                         DispatchQueue.main.async {
                             self.repositories = usersFromAPI.items
                         }

@@ -18,6 +18,6 @@ struct Repository: Codable {
     var owner: UserInfo
 }
 
-struct githubRepositories: Codable {
+struct Repositories: Codable {
     var items: [Repository]
 }
